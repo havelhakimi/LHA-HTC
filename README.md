@@ -19,7 +19,7 @@ The `train_lha.py` can be used to train all the models by setting different argu
 ### For BERT 
 `python3 train_lha.py --name='ckp_bert' --batch 10 --data='wos'` </br> </br>
 Some Important arguments: </br>
-- `--name` The name of directory in which your model will be saved. It is saved in `./LHA_HTC/data/wos/`
+- `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA_HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
 ###  FOR HGCLR 
 `python3 train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
