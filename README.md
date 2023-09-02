@@ -34,13 +34,12 @@ Some Important arguments: </br>
 Some Important arguments: </br>
 - `--hsampling` whether to use LDA-CON module
 -  `--hcont_wt` weight term of the LDA-CON module.
-### FOR LDA-ADV
+### FOR LHA-ADV
 `python3 train_lha.py --name='ckpt_adv' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --label_reg 1 --prior_wt 0.5 --hlayer 900` </br> </br>
 Some Important arguments: </br>
 - `--label_reg` whether to use LDA-ADV
 -  `--prior_wt` weight term of the LDA-ADV module
 -  `--hlayer` The size of the first  hidden layer of the discriminator
-
 
 ## Test
 To run the trained on test set run the script `test_LDA.py` </br> 
