@@ -42,7 +42,7 @@ Some Important arguments: </br>
 -  `--hlayer` The size of the first  hidden layer of the neural network
 
 ## Test
-To run the trained on test set run the script `test_lha.py` </br> 
+To run the trained model on test set run the script `test_lha.py` </br> 
 `python test_lha.py --name ckpt1 --data wos --extra _macro` </br> </br>
 Some Important arguments
 - `--name` The name of the directory which contains the saved checkpoint. The checkpoint is saved in `../LHA_HTC/data/wos/`
