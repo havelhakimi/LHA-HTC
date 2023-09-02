@@ -13,8 +13,8 @@ import numpy as np
 
 
 
-hier=torch.load('../LHA_HTC/data/wos/slot.pt')
-level_dict=torch.load('../LHA_HTC/data/wos/level.pt')
+hier=torch.load('../LHA-HTC/data/wos/slot.pt')
+level_dict=torch.load('../LHA-HTC/data/wos/level.pt')
 
 class BertPoolingLayer(nn.Module):
     def __init__(self, config, avg='cls'):
