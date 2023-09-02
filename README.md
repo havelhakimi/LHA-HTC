@@ -21,11 +21,11 @@ The `train_lha.py` can be used to train all the models by setting different argu
 Some Important arguments: </br>
 - `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA-HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
+- `--graph` whether to use structure encoder
 ###  FOR HGCLR 
 `python3 train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
 </br>
 Some Important arguments: </br>
-- `--graph` whether to use structure encoder
 - `--lamb` and `--thre` are arguments specific to HGCLR, and their specific values for WOS dataset are given in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 ### FOR LHA-CON
 `python3 train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
