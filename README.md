@@ -1,4 +1,4 @@
-# LHA_HTC
+# LHA-HTC
 
 ## Requirements
 - Python >= 3.6
@@ -19,7 +19,7 @@ The `train_lha.py` can be used to train all the models by setting different argu
 ### For BERT 
 `python3 train_lha.py --name='ckp_bert' --batch 10 --data='wos'` </br> </br>
 Some Important arguments: </br>
-- `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA_HTC/data/wos/ckp_bert`
+- `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA-HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
 ###  FOR HGCLR 
 `python3 train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
@@ -44,7 +44,7 @@ Some Important arguments: </br>
 To run the trained model on test set run the script `test_lha.py` </br> 
 `python test_lha.py --name ckpt1 --data wos --extra _macro` </br> </br>
 Some Important arguments
-- `--name` The name of the directory which contains the saved checkpoint. The checkpoint is saved in `../LHA_HTC/data/wos/`
+- `--name` The name of the directory which contains the saved checkpoint. The checkpoint is saved in `../LHA-HTC/data/wos/`
 - `--data` The name of directory which contains your data and related files
 - `--extra` Two checkpoints are kept based on macro-F1 and micro-F1 respectively. The possible choices are  `_macro` and `_micro` to choose from the two checkpoints
 
