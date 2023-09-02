@@ -103,7 +103,7 @@ if __name__ == '__main__':
     mod_name=args.name
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
     #data_path = os.path.join('data', args.data)
-    data_path = os.path.join('../LHA_HTC/data', args.data)
+    data_path = os.path.join('../LHA-HTC/data', args.data)
     args.data=data_path
     
     label_dict = torch.load(os.path.join(data_path, 'bert_value_dict.pt'))
