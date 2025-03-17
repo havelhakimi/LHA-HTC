@@ -31,19 +31,19 @@ Some Important arguments: </br>
 - `--graph` denotes batch size
 - `--lamb` and `--thre` are threshold arguments specific to HGCLR, and their values for WOS dataset and their values for the WOS dataset are provided in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 
-### FOR LHA-CON
+### FOR LHA-CON (Contrastive label alignment)
 `python train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
 </br>
 Some Important arguments: </br>
 - `--hsampling` whether to use LHA-CON module
--  `--hcont_wt` weight term of the LHA-CON module.
+-  `--hcont_wt` weight term of the LHA-CON module. We use 0.4 as the weigh for both WOS and RCV1-V2.
 
-### FOR LHA-ADV
+### FOR LHA-ADV (Adversarial label alignment)
 `python train_lha.py --name='ckpt_adv' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --label_reg 1 --prior_wt 0.5 --hlayer 900` </br> </br>
 Some Important arguments: </br>
 - `--label_reg` whether to use LHA-ADV
--  `--prior_wt` weight term of the LHA-ADV module
--  `--hlayer` The size of the first  hidden layer of the neural network
+-  `--prior_wt` weight term of the LHA-ADV module. We use 0.4 for WOS and 0.2 for RCV1-V2
+-  `--hlayer` The size of the first  hidden layer of the neural network. We use 900 for WOS and 1000 for RCV1-V2.
 
 ### For BERT 
 
