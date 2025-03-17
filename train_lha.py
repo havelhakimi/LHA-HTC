@@ -117,6 +117,10 @@ if __name__ == '__main__':
     label_dict = {i: tokenizer.decode(v, skip_special_tokens=True) for i, v in label_dict.items()}
     num_class = len(label_dict)
 
+
+    hier=torch.load(os.path.join('../LHA-HTC/data/',args.data,'slot.pt'))
+    level_dict=torch.load(os.path.join('../LHA-HTC/data/',args.data,'level_dict.pt'))
+
     dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path)
     model = ContrastModel.from_pretrained('bert-base-uncased', num_labels=num_class,
                                           contrast_loss=args.contrast, graph=args.graph,
@@ -124,7 +128,7 @@ if __name__ == '__main__':
                                           lamb=args.lamb, threshold=args.thre, tau=args.tau,
                                           label_regularized=args.label_reg,prior_wt=args.prior_wt,
                                           hlayer=args.hlayer,hcontrastive_sampling=args.hsampling,hcont_wt=args.hcont_wt,
-                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans)
+                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans,hier_path=hier_path,level_dict_path=level_dict_path)
 
 
     
