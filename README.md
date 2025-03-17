@@ -1,5 +1,5 @@
 # LHA-HTC
- Implementation for the 2023 IEEE Bigdata conference accepted paper "**Label hierarchy alignment for improved hierarchical text classification**" [paper-link](https://ieeexplore.ieee.org/abstract/document/10386495)
+ Implementation for the 2023 IEEE International Conference on Big Data (BigData) accepted paper "**Label hierarchy alignment for improved hierarchical text classification**" [paper-link](https://ieeexplore.ieee.org/abstract/document/10386495)
 ## Requirements
 - Python >= 3.7
 - torch >= 1.6.0
@@ -61,7 +61,6 @@ If you find our work helpful, please cite it using the following BibTeX entry:
   number={},
   pages={1174-1179},
   doi={10.1109/BigData59044.2023.10386495}}
-
 }
 
 
