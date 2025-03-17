@@ -42,7 +42,7 @@ Some Important arguments: </br>
 
 ### For BERT 
 
-python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
+`python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
 Some Important arguments: </br>
 - `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA-HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
