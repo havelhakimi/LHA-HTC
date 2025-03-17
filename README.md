@@ -4,38 +4,40 @@
 - Python >= 3.7
 - torch >= 1.6.0
 - transformers >= 4.30.2
-- torch-geometric == 1.7.2
-- torch-scatter == 2.0.8
-- torch-sparse == 0.6.12
-
+- Below libraries only if you want to run on GAT/GCN as the graph encoder
+  - torch-geometric == 2.4.0
+  - torch-sparse == 0.6.17
+  - torch-scatter == 2.1.1
 
 ## Data
-- The repository contains tokenized versions of the WOS dataset in `data/wos` folder. This is obtained following the same way as in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess).
-- Specific details on how to obtain the original datasets (WOS and RCV1-V2) and the corresponding scripts  to preprocess them are mentioned in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess) and will be added here as well later on.
+- All datasets are publically available and can be accessed at [WOS](https://github.com/kk7nc/HDLTex), [RCV1-V2](https://trec.nist.gov/data/reuters/reuters.html) and [NYT](https://catalog.ldc.upenn.edu/LDC2008T19). 
+- We followed the specific details mentioned in the  [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess) repository to obtain and preprocess the original datasets (WOS and RCV1-V2).
+- After accessing the dataset, run the scripts in the folder `preprocess` for each dataset separately to obtain tokenized version of dataset and the related files. These will be added in the `data/x` folder where x is the name of dataset with possible choices as: wos and rcv.
+- For reference we have added tokenized versions of the WOS dataset along with its related files in the `data/wos` folder. Similarly do for rcv dataset.
 
 ## Train
 The `train_lha.py` can be used to train all the models by setting different arguments.  
 
 ### For BERT 
 
-[python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
+python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
 Some Important arguments: </br>
 - `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA-HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
 - `--graph` whether to use structure encoder
 ###  FOR HGCLR 
-`python3 train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
+`python train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
 </br>
 Some Important arguments: </br>
 - `--lamb` and `--thre` are arguments specific to HGCLR, and their specific values for WOS dataset are given in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 ### FOR LHA-CON
-`python3 train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
+`python train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
 </br>
 Some Important arguments: </br>
 - `--hsampling` whether to use LHA-CON module
 -  `--hcont_wt` weight term of the LHA-CON module.
 ### FOR LHA-ADV
-`python3 train_lha.py --name='ckpt_adv' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --label_reg 1 --prior_wt 0.5 --hlayer 900` </br> </br>
+`python train_lha.py --name='ckpt_adv' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --label_reg 1 --prior_wt 0.5 --hlayer 900` </br> </br>
 Some Important arguments: </br>
 - `--label_reg` whether to use LHA-ADV
 -  `--prior_wt` weight term of the LHA-ADV module
