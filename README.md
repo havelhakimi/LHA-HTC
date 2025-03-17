@@ -50,6 +50,7 @@ Some Important arguments
 - `--extra` Two checkpoints are kept based on macro-F1 and micro-F1 respectively. The possible choices are  `_macro` and `_micro` to choose from the two checkpoints
 
 ## Citation
+If you find our work helpful, please cite it using the following BibTeX entry:
 ```bibtex
 @INPROCEEDINGS{10386495,
   author={Kumar, Ashish and Toshniwal, Durga},
