@@ -32,7 +32,7 @@ Some Important arguments: </br>
 - `--lamb` and `--thre` are threshold arguments specific to HGCLR, and their values for WOS dataset and their values for the WOS dataset are provided in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 
 ### FOR LHA-CON (Contrastive label alignment)
-The code for Contrastive label alignment is in `LHA_CON` class in `contrast_lha.py` </br>
+The code for Contrastive label alignment is in `LHA_CON` class in `contrast_lha.py` </br> </br>
 `python train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
 </br>
 Some Important arguments: </br>
@@ -40,7 +40,7 @@ Some Important arguments: </br>
 -  `--hcont_wt` weight term of the LHA-CON module. We use 0.4 as the weigh for both WOS and RCV1-V2.
 
 ### FOR LHA-ADV (Adversarial label alignment)
-The code for Contrastive label alignment is in `LHA_ADV` class in `contrast_lha.py` </br>
+The code for Adversarial label alignment is in `LHA_ADV` class in `contrast_lha.py` </br> </br>
 `python train_lha.py --name='ckpt_adv' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --label_reg 1 --prior_wt 0.5 --hlayer 900` </br> </br>
 Some Important arguments: </br>
 - `--label_reg` whether to use LHA-ADV
