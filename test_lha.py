@@ -21,16 +21,16 @@ args = parser.parse_args()
 
 if __name__ == '__main__':
      
-    data_path_root=os.path.join('../LHA-HTC/data', args.data)
-    data_path=data_path_root+'/Checkpoints/'
-    checkpoint = torch.load(os.path.join(data_path, args.name, 'checkpoint_best{}.pt'.format(args.extra)),
-                            map_location='cpu')       
+    ckp_path = os.path.join('../LHA-HTC/data', args.data,'Checkpoints')
+    data_path = os.path.join('../LHA-HTC/data', args.data)
+
+    checkpoint = torch.load(os.path.join(ckp_path, args.name, 'checkpoint_best{}.pt'.format(args.extra)),
+                            map_location='cpu')         
     batch_size = args.batch
     device = args.device
     extra = args.extra
     mod_name=args.name
     args = checkpoint['args'] if checkpoint['args'] is not None else args
-    
 
 
     if not hasattr(args, 'graph'):
@@ -43,14 +43,14 @@ if __name__ == '__main__':
     num_class = len(label_dict)
 
     dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path_root)
- 
+     
     model = ContrastModel.from_pretrained('bert-base-uncased', num_labels=num_class,
                                           contrast_loss=args.contrast, graph=args.graph,
                                           layer=args.layer, data_path=args.data, multi_label=args.multi,
                                           lamb=args.lamb, threshold=args.thre, tau=args.tau,
                                           label_regularized=args.label_reg,prior_wt=args.prior_wt,
                                           hlayer=args.hlayer,hcontrastive_sampling=args.hsampling,hcont_wt=args.hcont_wt,
-                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans)
+                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans,hier=hier,level_dict=level_dict)
 
     split = torch.load(os.path.join(data_path_root, 'split.pt'))
     test = Subset(dataset, split['test'])
