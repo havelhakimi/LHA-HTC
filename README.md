@@ -29,7 +29,7 @@ Some Important arguments: </br>
 - `--data` The name of directory which contains your data and related files
 - `--graph` whether to use structure encoder
 - `--graph` denotes batch size
-- `--lamb` and `--thre` are arguments specific to HGCLR, and their specific values for WOS dataset are given in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
+- `--lamb` and `--thre` are threshold arguments specific to HGCLR, and their values for WOS dataset and their values for the WOS dataset are provided in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 
 ### FOR LHA-CON
 `python train_lha.py --name='ckpt_con' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02 --hsampling 1 --hcont_wt 0.4` </br>
