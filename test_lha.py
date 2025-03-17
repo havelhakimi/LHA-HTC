@@ -43,6 +43,8 @@ if __name__ == '__main__':
     num_class = len(label_dict)
 
     dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path_root)
+    hier=torch.load(os.path.join(data_path,'slot.pt'))
+    level_dict=torch.load(os.path.join(data_path,'level_dict.pt'))
      
     model = ContrastModel.from_pretrained('bert-base-uncased', num_labels=num_class,
                                           contrast_loss=args.contrast, graph=args.graph,
