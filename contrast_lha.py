@@ -10,10 +10,80 @@ import torch.nn.functional as F
 import numpy as np
 from graph import GraphEncoder
 import numpy as np
+from dataclasses import dataclass
+from transformers.utils import ModelOutput
+import torch
+from typing import Optional, Tuple
 
 
 
 
+class LHA_CON(nn.Module):
+    def __init__(self,hlayer_samp,flayer_samp,lin_trans,hier,level_dict):
+        super().__init__()
+        self.lin_transform=lin_trans
+        self.hier=hier
+        self.level_dict=level_dict
+        if self.lin_transform:
+            self.transform = nn.Sequential(
+                    nn.Dropout(0.1),
+                    nn.Linear(768, hlayer_samp),
+                    nn.ReLU(),
+                    nn.Dropout(0.1),
+                    nn.Linear( hlayer_samp, flayer_samp),)
+        
+                
+    def forward(self,labels):
+
+      loss=0
+      total_levels=len(self.level_dict.keys())
+
+      for depth in range(1,total_levels):
+        parent_nodes=np.random.choice(self.level_dict[depth],2,replace=False).tolist()
+        while len(self.hier[parent_nodes[0]])==0  :
+          parent_nodes=np.random.choice(self.level_dict[depth],2,replace=False).tolist()
+        for node in parent_nodes[:-1]:
+          child_node=np.random.choice(list(self.hier[node]),1,replace=False)[0]
+
+        if self.lin_transform:
+          self.transform=self.transform.to(labels.device)
+          p1,p2=self.transform(labels[parent_nodes[0]]),self.transform(labels[parent_nodes[1]])
+          p1,p2=F.normalize(p1, p=2,dim=0),F.normalize(p2, p=2,dim=0)
+
+          c1=self.transform(labels[child_node])
+          c1=F.normalize(c1, p=2,dim=0) 
+
+        else:
+          p1,p2=labels[parent_nodes[0]],labels[parent_nodes[1]]
+          p1,p2=F.normalize(p1, p=2,dim=0),F.normalize(p2, p=2,dim=0)
+
+          c1=labels[child_node] #labels[children_nodes[1]]
+          c1=F.normalize(c1, p=2,dim=0) 
+            
+            
+        eps=1e-10
+        sim_p1c1=torch.abs(torch.dot(p1,c1)+eps)
+        #sim_p2c2=torch.abs(torch.dot(p2,c2)+eps)
+        disim=torch.abs(torch.dot(p1,p2)+eps)
+
+        loss+=-(sim_p1c1.log()+(1-disim).log())
+
+      return loss
+
+class LHA_ADV(nn.Module):
+    def __init__(self,hlayer):
+        super().__init__()
+        self.l0 = nn.Linear(768, hlayer)
+        self.l1 = nn.Linear(hlayer, 200)
+        self.l2 = nn.Linear(200, 1)
+
+    def forward(self, x):
+        h = F.relu(self.l0(x))
+        h = F.relu(self.l1(h))
+        return torch.sigmoid(self.l2(h))
+
+#####################################################3
+#Below code From HGCLR https://github.com/wzh9969/contrastive-htc with losses LHA_CON and LHA_CON added in the loss of HGCLR
 
 class BertPoolingLayer(nn.Module):
     def __init__(self, config, avg='cls'):
@@ -79,14 +149,15 @@ class NTXent(nn.Module):
 
 
 
+@dataclass
 class BaseModelOutputWithPoolingAndCrossAttentions(ModelOutput):
-    last_hidden_state = None
-    pooler_output = None
-    hidden_states = None
-    past_key_values = None
-    attentions = None
-    cross_attentions = None
-    input_embeds = None
+    last_hidden_state: Optional[torch.Tensor] = None
+    pooler_output: Optional[torch.Tensor] = None
+    hidden_states: Optional[Tuple[torch.Tensor]] = None
+    past_key_values: Optional[Tuple[Tuple[torch.Tensor]]] = None
+    attentions: Optional[Tuple[torch.Tensor]] = None
+    cross_attentions: Optional[Tuple[torch.Tensor]] = None
+    inputs_embeds: Optional[torch.Tensor] = None
 
 
 class BertEmbeddings(nn.Module):
@@ -305,77 +376,13 @@ class BertModel(BertPreTrainedModel):
         )
 
 
-class LHA_ADV(nn.Module):
-    def __init__(self,hlayer):
-        super().__init__()
-        self.l0 = nn.Linear(768, hlayer)
-        self.l1 = nn.Linear(hlayer, 200)
-        self.l2 = nn.Linear(200, 1)
-
-    def forward(self, x):
-        h = F.relu(self.l0(x))
-        h = F.relu(self.l1(h))
-        return torch.sigmoid(self.l2(h))
-
-
-class LHA_CON(nn.Module):
-    def __init__(self,hlayer_samp,flayer_samp,lin_trans,hier_path,level_dict_path):
-        super().__init__()
-        self.lin_transform=lin_trans
-        self.hier=torch.load(hier_path)
-        self.level_dict=torch.load(level_dict_path)
-        if self.lin_transform:
-            self.transform = nn.Sequential(
-                    nn.Dropout(0.1),
-                    nn.Linear(768, hlayer_samp),
-                    nn.ReLU(),
-                    nn.Dropout(0.1),
-                    nn.Linear( hlayer_samp, flayer_samp),)
-        
-                
-    def forward(self,labels):
-
-      loss=0
-      total_levels=len(level_dict.keys())
-
-      for depth in range(1,total_levels):
-        parent_nodes=np.random.choice(self.level_dict[depth],2,replace=False).tolist()
-        while len(self.hier[parent_nodes[0]])==0  :
-          parent_nodes=np.random.choice(level_dict[depth],2,replace=False).tolist()
-        for node in parent_nodes[:-1]:
-          child_node=np.random.choice(list(self.hier[node]),1,replace=False)[0]
-
-        if self.lin_transform:
-          self.transform=self.transform.to(labels.device)
-          p1,p2=self.transform(labels[parent_nodes[0]]),self.transform(labels[parent_nodes[1]])
-          p1,p2=F.normalize(p1, p=2,dim=0),F.normalize(p2, p=2,dim=0)
-
-          c1=self.transform(labels[child_node])
-          c1=F.normalize(c1, p=2,dim=0) 
-
-        else:
-          p1,p2=labels[parent_nodes[0]],labels[parent_nodes[1]]
-          p1,p2=F.normalize(p1, p=2,dim=0),F.normalize(p2, p=2,dim=0)
-
-          c1=labels[child_node] #labels[children_nodes[1]]
-          c1=F.normalize(c1, p=2,dim=0) 
-            
-            
-        eps=1e-10
-        sim_p1c1=torch.abs(torch.dot(p1,c1)+eps)
-        #sim_p2c2=torch.abs(torch.dot(p2,c2)+eps)
-        disim=torch.abs(torch.dot(p1,p2)+eps)
-
-        loss+=-(sim_p1c1.log()+(1-disim).log())
-
-      return loss
 
 
 class ContrastModel(BertPreTrainedModel):
     def __init__(self, config, cls_loss=True, contrast_loss=True, graph=0, layer=1, data_path=None,
                  multi_label=False, lamb=1, threshold=0.01, tau=1,
                  label_regularized=1,prior_wt=0.5,hlayer=1000,hcontrastive_sampling=0,
-                 hcont_wt=0, hlayer_samp=768,flayer_samp=768,lin_trans=0,hier_path,level_dict_path):
+                 hcont_wt=0, hlayer_samp=768,flayer_samp=768,lin_trans=0,hier=None,level_dict=None):
         super(ContrastModel, self).__init__(config)
         self.num_labels = config.num_labels
         self.tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
@@ -398,7 +405,7 @@ class ContrastModel(BertPreTrainedModel):
         self.hcontrastive_sampling=hcontrastive_sampling
         if self.hcontrastive_sampling:
             self.hcont_wt=hcont_wt
-            self.hsamp_loss=LHA_CON(hlayer_samp,flayer_samp,lin_trans,hier_path,level_dict_path)
+            self.hsamp_loss=LHA_CON(hlayer_samp,flayer_samp,lin_trans,hier,level_dict)
         
         self.multi_label = multi_label
 
