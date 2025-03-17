@@ -9,11 +9,6 @@
 - torch-sparse == 0.6.12
 
 
-```bash
-git clone https://github.com/your-repo.git
-cd your-repo
-```
-
 ## Data
 - The repository contains tokenized versions of the WOS dataset in `data/wos` folder. This is obtained following the same way as in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess).
 - Specific details on how to obtain the original datasets (WOS and RCV1-V2) and the corresponding scripts  to preprocess them are mentioned in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess) and will be added here as well later on.
@@ -22,8 +17,8 @@ cd your-repo
 The `train_lha.py` can be used to train all the models by setting different arguments.  
 
 ### For BERT 
-```bash
-python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0``` </br> </br>
+
+[python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
 Some Important arguments: </br>
 - `--name` The name of directory in which your model will be saved. For e.g. the above model will be saved in `./LHA-HTC/data/wos/ckp_bert`
 - `--data` The name of directory which contains your data and related files
