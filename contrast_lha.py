@@ -1,5 +1,3 @@
-
-
 from transformers import AutoTokenizer
 from transformers.models.bert.modeling_bert import BertPreTrainedModel, BertEncoder
 from transformers.file_utils import ModelOutput
@@ -14,8 +12,6 @@ from dataclasses import dataclass
 from transformers.utils import ModelOutput
 import torch
 from typing import Optional, Tuple
-
-
 
 
 class LHA_CON(nn.Module):
