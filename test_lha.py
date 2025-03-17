@@ -38,11 +38,11 @@ if __name__ == '__main__':
     print(args)
     tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
-    label_dict = torch.load(os.path.join(data_path_root, 'bert_value_dict.pt'))
+    label_dict = torch.load(os.path.join(data_path, 'bert_value_dict.pt'))
     label_dict = {i: tokenizer.decode(v, skip_special_tokens=True) for i, v in label_dict.items()}
     num_class = len(label_dict)
 
-    dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path_root)
+    dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path)
     hier=torch.load(os.path.join(data_path,'slot.pt'))
     level_dict=torch.load(os.path.join(data_path,'level_dict.pt'))
      
@@ -54,7 +54,7 @@ if __name__ == '__main__':
                                           hlayer=args.hlayer,hcontrastive_sampling=args.hsampling,hcont_wt=args.hcont_wt,
                                           hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans,hier=hier,level_dict=level_dict)
 
-    split = torch.load(os.path.join(data_path_root, 'split.pt'))
+    split = torch.load(os.path.join(data_path, 'split.pt'))
     test = Subset(dataset, split['test'])
     test = DataLoader(test, batch_size=batch_size, shuffle=False, collate_fn=dataset.collate_fn)
     model.load_state_dict(checkpoint['param'])
