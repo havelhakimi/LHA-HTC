@@ -1,6 +1,5 @@
 
 from transformers import AutoTokenizer
-from fairseq.data import data_utils
 import torch
 from torch.utils.data import Dataset, DataLoader, Subset
 from optim import ScheduledOptim, Adam
