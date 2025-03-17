@@ -1,5 +1,5 @@
 # LHA-HTC
-
+ Implementation for the 2023 IEEE Bigdata conference accepted paper "Modeling Text-Label Alignment for Hierarchical Text Classification" [paper-link](https://ieeexplore.ieee.org/abstract/document/10386495)
 ## Requirements
 - Python >= 3.7
 - torch >= 1.6.0
