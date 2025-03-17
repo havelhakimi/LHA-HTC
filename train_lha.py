@@ -9,8 +9,7 @@ import os
 from eval import evaluate
 from contrast_lha import ContrastModel
 import utils
-
-
+import tarfile
 
 
 
@@ -20,10 +19,15 @@ class BertDataset(Dataset):
         
         super(BertDataset, self).__init__()
         self.device = device
+        # load feataure
         extraction_path=os.path.join(data_path,'tok.tar.xz')
         with tarfile.open(extraction_path, 'r:*') as tar_ref: 
             tar_ref.extractall(data_path)
-            
+        # load labels
+        extraction_path=os.path.join(data_path,'Y.tar.xz')
+        with tarfile.open(extraction_path, 'r:*') as tar_ref: 
+            tar_ref.extractall(data_path)
+
         tok_path = os.path.join(data_path, 'tok.txt')
         y_path = os.path.join(data_path, 'Y.txt')
         with open(tok_path,'r') as f:
@@ -53,7 +57,6 @@ class BertDataset(Dataset):
         for i, b in enumerate(batch):
             data[i][:len(b['data'])] = b['data']
         return data, label, idx
-
 
 class Saver:
     def __init__(self, model, optimizer, scheduler, args):
@@ -117,9 +120,8 @@ if __name__ == '__main__':
     label_dict = {i: tokenizer.decode(v, skip_special_tokens=True) for i, v in label_dict.items()}
     num_class = len(label_dict)
 
-
-    hier=torch.load(os.path.join('../LHA-HTC/data/',args.data,'slot.pt'))
-    level_dict=torch.load(os.path.join('../LHA-HTC/data/',args.data,'level_dict.pt'))
+    hier=torch.load(os.path.join(data_path,'slot.pt'))
+    level_dict=torch.load(os.path.join(data_path,'level_dict.pt'))
 
     dataset = BertDataset(device=device, pad_idx=tokenizer.pad_token_id, data_path=data_path)
     model = ContrastModel.from_pretrained('bert-base-uncased', num_labels=num_class,
@@ -128,7 +130,7 @@ if __name__ == '__main__':
                                           lamb=args.lamb, threshold=args.thre, tau=args.tau,
                                           label_regularized=args.label_reg,prior_wt=args.prior_wt,
                                           hlayer=args.hlayer,hcontrastive_sampling=args.hsampling,hcont_wt=args.hcont_wt,
-                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans,hier_path=hier_path,level_dict_path=level_dict_path)
+                                          hlayer_samp=args.hlayer_samp,flayer_samp=args.flayer_samp,lin_trans=args.lin_trans,hier=hier,level_dict=level_dict)
 
 
     
