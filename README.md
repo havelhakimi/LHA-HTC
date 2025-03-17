@@ -8,6 +8,12 @@
 - torch-scatter == 2.0.8
 - torch-sparse == 0.6.12
 
+
+```bash
+git clone https://github.com/your-repo.git
+cd your-repo
+
+
 ## Data
 - The repository contains tokenized versions of the WOS dataset in `data/wos` folder. This is obtained following the same way as in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess).
 - Specific details on how to obtain the original datasets (WOS and RCV1-V2) and the corresponding scripts  to preprocess them are mentioned in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess) and will be added here as well later on.
