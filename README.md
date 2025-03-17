@@ -11,7 +11,7 @@
   - torch-scatter == 2.1.1
 
 ## Data
-- All datasets are publically available and can be accessed at [WOS](https://github.com/kk7nc/HDLTex), [RCV1-V2](https://trec.nist.gov/data/reuters/reuters.html) and [NYT](https://catalog.ldc.upenn.edu/LDC2008T19). 
+- All datasets are publically available and can be accessed at [WOS](https://github.com/kk7nc/HDLTex) and [RCV1-V2](https://trec.nist.gov/data/reuters/reuters.html) 
 - We followed the specific details mentioned in the  [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess) repository to obtain and preprocess the original datasets (WOS and RCV1-V2).
 - After accessing the dataset, run the scripts in the folder `preprocess` for each dataset separately to obtain tokenized version of dataset and the related files. These will be added in the `data/x` folder where x is the name of dataset with possible choices as: wos and rcv.
 - For reference we have added tokenized versions of the WOS dataset along with its related files in the `data/wos` folder. Similarly do for rcv dataset.
