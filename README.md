@@ -12,7 +12,7 @@
 ```bash
 git clone https://github.com/your-repo.git
 cd your-repo
-
+```
 
 ## Data
 - The repository contains tokenized versions of the WOS dataset in `data/wos` folder. This is obtained following the same way as in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#preprocess).
