@@ -21,6 +21,7 @@
 The `train_lha.py` can be used to train all the models by setting different arguments.  
 
 ###  FOR HGCLR 
+HGCLR is a popular hierarchical text classification model, introduced in [this](https://aclanthology.org/2022.acl-long.491/)  paper at ACL 2022. Our approach is built on HGCLR model, and we thank the authors for sharing their [code](https://github.com/wzh9969/contrastive-htc#preprocess).
 `python train_lha.py --name='ckp_hgclr' --batch 10 --data='wos' --graph 1 --lamb 0.05 --thre 0.02` </br>
 </br>
 Some Important arguments: </br>
