@@ -1,4 +1,4 @@
-# LHA-HTC
+# LHA-HTC : Label hierarchy alignment for improved hierarchical text classification
  Implementation for the 2023 IEEE International Conference on Big Data (BigData) accepted paper "**Label hierarchy alignment for improved hierarchical text classification**" [paper-link](https://ieeexplore.ieee.org/abstract/document/10386495)
 
 ## Requirements
