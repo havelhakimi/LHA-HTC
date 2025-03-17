@@ -13,8 +13,7 @@ import numpy as np
 
 
 
-hier=torch.load('../LHA-HTC/data/wos/slot.pt')
-level_dict=torch.load('../LHA-HTC/data/wos/level.pt')
+
 
 class BertPoolingLayer(nn.Module):
     def __init__(self, config, avg='cls'):
@@ -320,9 +319,11 @@ class LHA_ADV(nn.Module):
 
 
 class LHA_CON(nn.Module):
-    def __init__(self,hlayer_samp,flayer_samp,lin_trans):
+    def __init__(self,hlayer_samp,flayer_samp,lin_trans,hier_path,level_dict_path):
         super().__init__()
         self.lin_transform=lin_trans
+        self.hier=torch.load(hier_path)
+        self.level_dict=torch.load(level_dict_path)
         if self.lin_transform:
             self.transform = nn.Sequential(
                     nn.Dropout(0.1),
@@ -330,6 +331,7 @@ class LHA_CON(nn.Module):
                     nn.ReLU(),
                     nn.Dropout(0.1),
                     nn.Linear( hlayer_samp, flayer_samp),)
+        
                 
     def forward(self,labels):
 
@@ -337,11 +339,11 @@ class LHA_CON(nn.Module):
       total_levels=len(level_dict.keys())
 
       for depth in range(1,total_levels):
-        parent_nodes=np.random.choice(level_dict[depth],2,replace=False).tolist()
-        while len(hier[parent_nodes[0]])==0  :
+        parent_nodes=np.random.choice(self.level_dict[depth],2,replace=False).tolist()
+        while len(self.hier[parent_nodes[0]])==0  :
           parent_nodes=np.random.choice(level_dict[depth],2,replace=False).tolist()
         for node in parent_nodes[:-1]:
-          child_node=np.random.choice(list(hier[node]),1,replace=False)[0]
+          child_node=np.random.choice(list(self.hier[node]),1,replace=False)[0]
 
         if self.lin_transform:
           self.transform=self.transform.to(labels.device)
@@ -373,7 +375,7 @@ class ContrastModel(BertPreTrainedModel):
     def __init__(self, config, cls_loss=True, contrast_loss=True, graph=0, layer=1, data_path=None,
                  multi_label=False, lamb=1, threshold=0.01, tau=1,
                  label_regularized=1,prior_wt=0.5,hlayer=1000,hcontrastive_sampling=0,
-                 hcont_wt=0, hlayer_samp=768,flayer_samp=768,lin_trans=0):
+                 hcont_wt=0, hlayer_samp=768,flayer_samp=768,lin_trans=0,hier_path,level_dict_path):
         super(ContrastModel, self).__init__(config)
         self.num_labels = config.num_labels
         self.tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
@@ -396,7 +398,7 @@ class ContrastModel(BertPreTrainedModel):
         self.hcontrastive_sampling=hcontrastive_sampling
         if self.hcontrastive_sampling:
             self.hcont_wt=hcont_wt
-            self.hsamp_loss=LHA_CON(hlayer_samp,flayer_samp,lin_trans)
+            self.hsamp_loss=LHA_CON(hlayer_samp,flayer_samp,lin_trans,hier_path,level_dict_path)
         
         self.multi_label = multi_label
 
