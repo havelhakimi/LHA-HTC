@@ -29,7 +29,7 @@ Some Important arguments: </br>
 - `--data` The name of directory which contains your data and related files
 - `--graph` whether to use structure encoder
 - `--graph` denotes batch size
-- `--lamb` and `--thre` are threshold arguments specific to HGCLR, and their values for WOS dataset and their values for the WOS dataset are provided in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
+- `--lamb` and `--thre` are threshold arguments specific to HGCLR, and their values for WOS (lamb 0.05; thre 0.02) and RCV1-V2 (lamb 0.3; thre 0.001) are provided in [contrastive-htc](https://github.com/wzh9969/contrastive-htc#reproducibility)
 
 ### FOR LHA-CON (Contrastive label alignment)
 The code for Contrastive label alignment is in `LHA_CON` class in `contrast_lha.py` </br> </br>
