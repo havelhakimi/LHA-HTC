@@ -49,3 +49,18 @@ Some Important arguments
 - `--data` The name of directory which contains your data and related files
 - `--extra` Two checkpoints are kept based on macro-F1 and micro-F1 respectively. The possible choices are  `_macro` and `_micro` to choose from the two checkpoints
 
+## Citation
+```bibtex
+@INPROCEEDINGS{10386495,
+  author={Kumar, Ashish and Toshniwal, Durga},
+  booktitle={2023 IEEE International Conference on Big Data (BigData)}, 
+  title={Label Hierarchy Alignment for Improved Hierarchical Text Classification}, 
+  year={2023},
+  volume={},
+  number={},
+  pages={1174-1179},
+  doi={10.1109/BigData59044.2023.10386495}}
+
+}
+
+
