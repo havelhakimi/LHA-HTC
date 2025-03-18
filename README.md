@@ -49,7 +49,6 @@ Some Important arguments: </br>
 ### For BERT 
 
 `python train_lha.py --name='ckp_bert' --batch 10 --data='wos' --graph 0` </br> </br>
-Some Important arguments: </br>
 
 ## Test
 To run the trained model on test set run the script `test_lha.py` </br> 
